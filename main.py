@@ -41,3 +41,9 @@ items = {
 @app.get("/")
 async def index() -> dict[str, dict[int, Item]]:
     return {"items": items}
+
+@app.get("/items/{item_id}")
+def query_item_by_id(item_id: int) -> Item:
+    if item_id not in items:
+        raise HTTPException(status_code=404, detail=f"Item with {item_id=} not found")
+    return items[item_id]
